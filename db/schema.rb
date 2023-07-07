@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_11_01_225251) do
+ActiveRecord::Schema[7.0].define(version: 2023_07_07_061613) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -19,6 +19,9 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_01_225251) do
     t.string "age"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "movie_id"
+    t.boolean "remove_movie", default: false
+    t.index ["movie_id"], name: "index_clients_on_movie_id"
   end
 
   create_table "movies", force: :cascade do |t|
@@ -26,8 +29,11 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_01_225251) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "client_id"
+    t.string "description"
+    t.string "image_url"
     t.index ["client_id"], name: "index_movies_on_client_id"
   end
 
+  add_foreign_key "clients", "movies"
   add_foreign_key "movies", "clients"
 end

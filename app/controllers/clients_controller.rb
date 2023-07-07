@@ -37,15 +37,25 @@ class ClientsController < ApplicationController
   # PATCH/PUT /clients/1 or /clients/1.json
   def update
     respond_to do |format|
-      if @client.update(client_params)
+      if params[:commit] == "Return Movie"
+        @client.movie = nil
+        if @client.save
+          format.html { redirect_to client_url(@client), notice: "Movie returned successfully." }
+          format.json { render :show, status: :ok, location: @client }
+        else
+          format.html { render :edit }
+          format.json { render json: @client.errors, status: :unprocessable_entity }
+        end
+      elsif @client.update(client_params)
         format.html { redirect_to client_url(@client), notice: "Client was successfully updated." }
         format.json { render :show, status: :ok, location: @client }
       else
-        format.html { render :edit, status: :unprocessable_entity }
+        format.html { render :edit }
         format.json { render json: @client.errors, status: :unprocessable_entity }
       end
     end
   end
+  
 
   # DELETE /clients/1 or /clients/1.json
   def destroy
@@ -63,8 +73,8 @@ class ClientsController < ApplicationController
       @client = Client.find(params[:id])
     end
 
-    # Only allow a list of trusted parameters through.
     def client_params
-      params.require(:client).permit(:name, :age)
+      params.require(:client).permit(:name, :age, :movie_id)
     end
+    
 end

@@ -6,7 +6,7 @@
   <div id="movies">
     <div class="row">
       <% @movies.each do |movie| %>
-        <%= render movie %>
+        <%= render partial: 'movie', locals: { movie: movie } %>
       <% end %>
     </div>
   </div>

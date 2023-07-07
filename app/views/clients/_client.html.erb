@@ -1,11 +1,23 @@
 <div id="<%= dom_id client %>">
-  <tr>
-    <th scope="row"><%= client.id %></th>
-    <td><%= client.name %></td>
-    <td><%= client.age %></td>
-    <td><%= client.movies.last %></td>
-    <td><%= link_to "Show this client", client %></td>
-    <td><%= link_to "Edit this client", edit_client_path(client) %></td>
-    <td><%= button_to "Delete", client_path(client), method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-danger", form: { 'data-remote': true } %></td>
-  </tr>
+<tr>
+  <th scope="row"><%= client.id %></th>
+  <td><%= client.name %></td>
+  <td><%= client.age %></td>
+  <td>
+    <% if client.movie %>
+      <%= client.movie.name %>
+      <%= form_with(model: client, url: client_path(client), method: :patch) do |form| %>
+        <%= form.hidden_field :remove_movie, value: true %>
+        <%= form.submit "Return Movie", class: "btn btn-warning" %>
+      <% end %>
+    <% end %>
+  </td>
+  <td>
+  <div class="btn-group" role="group">
+  <%= link_to "Estado", client, class: "btn btn-info px-5 m-1" %>
+    <%= link_to "Editar", edit_client_path(client), class: "btn btn-danger px-5 m-1" %>
+    <%= button_to "Delete", client_path(client), method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-warning px-5 m-1", form: { 'data-remote': true } %>
+  </div>
+</td>
+</tr>
 </div>

@@ -1,19 +1,21 @@
 <p style="color: green"><%= notice %></p>
 
 <div class="container">
-  <h1>Clients</h1>
+  <h1>Clientes</h1>
 
-  <%= link_to "New client", new_client_path %>
+  <%= link_to new_client_path, class: "btn btn-success" do %>
+    <i class="fas fa-plus"></i>
+  <% end %>
 
-  <div id="clients">
+  <div id="clients" class="mt-4">
     <table class="table table-bordered">
       <thead>
         <tr>
           <th scope="col">#</th>
-          <th scope="col">Name</th>
-          <th scope="col">Age</th>
-          <th scope="col">Movie</th>
-          <th scope="col" colspan="3"></th>
+          <th scope="col">Nombre</th>
+          <th scope="col">Edad</th>
+          <th scope="col">Pelicula</th>
+          <th scope="col">Varios</th>
         </tr>
       </thead>
       <tbody>

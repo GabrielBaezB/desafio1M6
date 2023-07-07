@@ -1,27 +1,53 @@
-<%= form_with(model: client) do |form| %>
-  <% if client.errors.any? %>
-    <div style="color: red">
-      <h2><%= pluralize(client.errors.count, "error") %> prohibited this client from being saved:</h2>
-
-      <ul>
-        <% client.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
-
-  <div>
-    <%= form.label :name, style: "display: block" %>
-    <%= form.text_field :name %>
+<% if client.persisted? %>
+  <%= form_with(model: client, url: client_path(client), method: :patch) do |form| %>
+  <div class="mb-3 mt-3">
+    <%= form.label :"Nombre" %>
+    <%= form.text_field :name, class: "form-control" %>
   </div>
-
-  <div>
-    <%= form.label :age, style: "display: block" %>
-    <%= form.text_field :age %>
+  
+  <div class="mb-3">
+    <%= form.label :"Edad" %>
+    <%= form.text_field :age, class: "form-control" %>
   </div>
-
-  <div>
-    <%= form.submit %>
+  
+  <div class="mb-3">
+    <%= form.label :"Seleccione pelicula" %>
+    <%= form.collection_select :movie_id, Movie.all, :id, :name, { include_blank: true }, class: "form-control" %>
   </div>
-<% end %>
+  
+  <div class="mb-3">
+    <%= form.check_box :"Remover pelicula" %>
+    <%= form.label :remove_movie, "Remove Movie" %>
+  </div>
+  
+  <div class="mb-3">
+    <%= form.submit "Actualizar Cliente", class: "btn btn-primary" %>
+  </div>
+  
+    <% end %>
+      <% else %>
+        <%= form_with(model: client, url: clients_path, method: :post) do |form| %>
+          <%= form_with(model: client, url: clients_path, method: :post, class: "text-center" ) do |form| %>
+            <div class="mb-3 mt-3">
+              <%= form.label :"Nombre:" %>
+                <%= form.text_field :name, class: "form-control" %>
+            </div>
+
+            <div class="mb-3">
+              <%= form.label :"Edad:" %>
+                <%= form.text_field :age, class: "form-control" %>
+            </div>
+            <div class="d-flex justify-content-between align-items-center">
+              <div>
+                <%= form.submit "Crear cliente" , class: "btn btn-primary" %>
+              </div>
+              <div>
+                <%= link_to "Volver" , clients_path, class: "btn btn-secondary" %>
+              </div>
+            </div>
+
+            <% end %>
+              </div>
+
+              <% end %>
+                <% end %>
